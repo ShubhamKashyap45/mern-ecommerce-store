@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Email is required"],
-        uniqure: true,
+        unique: true,
         lowercase: true,
         trim: true
     },
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
             },
 
             product: {
-                type: mongoose.Schema.Type.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Product"
             }
         }
@@ -44,8 +44,8 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const User = mongoose.model("User", userSchema)
 
+// Pre-save hook to hash password before saving to the database
 userSchema.pre("save", async function (next) {
     if(!this.isModified("password")){
         return next();
@@ -59,4 +59,11 @@ userSchema.pre("save", async function (next) {
     }
 })
 
+
+userSchema.methods.comparePassword = async function (password) {
+    // (the passsword that user is passing, to the actual password in the database)
+    return bcrypt.compare(password, this.password);
+    
+}
+const User = mongoose.model("User", userSchema)
 export default User;
