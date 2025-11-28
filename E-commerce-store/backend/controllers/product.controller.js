@@ -72,3 +72,35 @@ export const createProduct = async (req, res) => {
         
     }
 }
+
+// @desc admin can delete Products 
+// @path /api/products/deleteProduct
+// @access protected /api/products/protectedRoute/adminRoute
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const product = await productModel.findById(req.params.id);
+
+        if(!product){
+            res.status(404).json({message: "Product Not Found"})
+        }
+
+        if(product.image){
+            const publicId = product.image.split('/').pop().split(".")[0];
+            try {
+                await cloudinary.uploader.destroy(`products/${publicId}`);
+                console.log("Deleted Image from cloudinary");
+            } catch (error) {
+                console.log("Error deleting image from cloudinary");
+            }
+        }
+        
+        await productModel.findByIdAndDelete(req.params.id)
+        res.json({message: "Product Deleted Successfully"})
+    } catch (error) {
+        console.log("Error in deleteProduct controller");
+        res.status(500).json({message: `Server Error`, error: error.message})
+        
+    }
+    
+}
