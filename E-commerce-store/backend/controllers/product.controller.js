@@ -76,7 +76,6 @@ export const createProduct = async (req, res) => {
 // @desc admin can delete Products 
 // @path /api/products/deleteProduct
 // @access protected /api/products/protectedRoute/adminRoute
-
 export const deleteProduct = async (req, res) => {
     try {
         const product = await productModel.findById(req.params.id);
@@ -103,4 +102,32 @@ export const deleteProduct = async (req, res) => {
         
     }
     
+}
+
+// @desc this is to get recommended products in cart/place order page
+// @path /api/products/getRecommendedProducts
+// access public 
+export const getRecommendedProducts = async (req, res) => {
+    try {
+        const products = await productModel.aggregate([
+            {
+                $sample: {size:3}
+            },
+            {
+                $project:{
+                    _id:1,
+                    name:1,
+                    description:1,
+                    image:1,
+                    price:1,
+                }
+            }
+        ])
+
+        res.json(products);
+    } catch (error) {
+        console.log("Error in getRecommendedProducts controller");
+        res.status(500).json({ message: "Server Error", error: error.message });
+        
+    }
 }

@@ -7,6 +7,7 @@ import { adminRoute, protectRoute } from "../middleware/auth.middleware.js";
 
 router.get('/', protectRoute, adminRoute, getAllProducts)
 router.get('/freatured', getFeaturedProducts);
+router.get('/recommendations', getRecommendedProducts);
 router.post('/', protectRoute, adminRoute, createProduct);
 router.delete('/:id',protectRoute, adminRoute, deleteProduct);
 
