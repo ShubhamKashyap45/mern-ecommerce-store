@@ -131,3 +131,17 @@ export const getRecommendedProducts = async (req, res) => {
         
     }
 }
+
+// @desc this is get Products by catogery {eg. Shoes, Jeans, Shirt, etc}
+// @path /api/products/catogery/:category
+// access public 
+export const getProductsByCategory = async (req, res) => {
+    try {
+        const {category} = req.params;
+        const products = await productModel.find({category});
+        res.json(products);
+    } catch (error) {
+        console.log("Error in getProductsByCategory controller");
+        res.status(500).json({message: "Server Error", error: error.message})
+    }
+}
