@@ -1,6 +1,10 @@
 import couponModel from "../models/coupon.model.js"
 import {stripe} from "../lib/stripe.js"
+import Coupon from "../models/coupon.model.js";
 
+// desc this fucntion is for the checkout session using stripe
+// route POST /api/payments/create-checkout-session
+// access Protected
 const createCheckoutSession = async (req, res) => {
     try {
         const {products, couponCode} = req.body;
@@ -55,6 +59,12 @@ const createCheckoutSession = async (req, res) => {
             }
         });
 
+        if(totalAmount>=50000){
+            await createNewCoupon(req.user._id);
+        }
+
+        res.status(200).json({id: session.id, totalAmount: totalAmount / 100})
+
     } catch (error) {
         console.log("Error in createCheckoutSession controller", error.message);
         res.status(500).json({message: "Server Error", error: error.message});
@@ -63,6 +73,7 @@ const createCheckoutSession = async (req, res) => {
 
 }
 
+
 async function createStripeCoupon(discountPercentage) {
     const coupon = await stripe.coupons.create({
         percent_off: discountPercentage,
@@ -70,6 +81,19 @@ async function createStripeCoupon(discountPercentage) {
     });
 
     return coupon.id;
+}
+
+async function createNewCoupon(userId){
+    const newCoupon = new Coupon({
+        code: "GIFT" + Math.random().toString(36).substring(2,8).toUpperCase(),
+        discountPercentage: 10,
+        expirationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        userId: userId
+    })
+
+    await newCoupon.save();
+
+    return newCoupon;
 }
 
 export {createCheckoutSession};
