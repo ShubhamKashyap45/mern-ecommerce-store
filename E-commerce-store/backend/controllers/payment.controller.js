@@ -1,6 +1,6 @@
 import couponModel from "../models/coupon.model.js"
+import orderModel from "../models/order.model.js"
 import {stripe} from "../lib/stripe.js"
-import Coupon from "../models/coupon.model.js";
 
 // desc this fucntion is for the checkout session using stripe
 // route POST /api/payments/create-checkout-session
@@ -55,7 +55,14 @@ const createCheckoutSession = async (req, res) => {
             : [],
             metadata: {
                 userId: req.user._id.toString(),
-                couponCode:couponCode || ""
+                couponCode:couponCode || "",
+                products: JSON.stringify(
+                    products.map((p) => ({
+                        id: p._id,
+                        quantity: p.quantity,
+                        price: p.price,
+                    }))
+                ),
             }
         });
 
@@ -84,7 +91,7 @@ async function createStripeCoupon(discountPercentage) {
 }
 
 async function createNewCoupon(userId){
-    const newCoupon = new Coupon({
+    const newCoupon = new couponModel({
         code: "GIFT" + Math.random().toString(36).substring(2,8).toUpperCase(),
         discountPercentage: 10,
         expirationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
@@ -96,4 +103,51 @@ async function createNewCoupon(userId){
     return newCoupon;
 }
 
-export {createCheckoutSession};
+// desc Handles Stripe checkout success after payment.
+// route /api/paymnets/checkout-success
+// access Protected
+const checkoutSuccess = async (req, res) => {
+    try {
+        const {sessionId} = req.body;
+        const session = await stripe.checkout.sessions.retrive(sessionId);
+
+        if(session.payment_status === "paid"){
+            if(session.metadata.couponCode){
+                await couponModel.findOneAndUpdate({
+                    code: session.metadata.couponCode, userId: session.metadata.userId
+                }, {
+                    isActive: false
+                })
+            }
+
+            // Create new Order
+            const products = JSON.parse(session.metadata.products);
+            const newOrder = new orderModel({
+                user: session.metadata.userId,
+                products: products.map(product => ({
+                    product: product.id,
+                    quantity: product.quantity,
+                    price: product.price
+                })),
+                totalAmount: session.amount_total / 100,
+                stripeSessionId: sessionId
+            })
+
+            await newOrder.save();
+
+            res.status(200).json({
+                success: true,
+                message: "Payment Successful, order has been created.",
+                orderId: newOrder._id,
+            })
+
+        }
+        
+    } catch (error) {
+        console.log("Error processing successfull chekcout in createCheckoutSuccess controller");
+        res.status(500).json({message: "Error processing Successful Checkout", error: error.message});
+        
+    }
+}
+
+export {createCheckoutSession, checkoutSuccess};
