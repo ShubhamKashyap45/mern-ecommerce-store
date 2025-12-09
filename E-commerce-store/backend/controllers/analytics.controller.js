@@ -1,6 +1,6 @@
-import User from "../models/user.model"
-import Order from "../models/order.model";
-import Product from "../models/product.model";
+import User from "../models/user.model.js"
+import Order from "../models/order.model.js";
+import Product from "../models/product.model.js";
 
 const getAnalyticsData = async() => {
 
@@ -28,7 +28,7 @@ const getAnalyticsData = async() => {
 
 }
 
-export const getDailySalesData = async (startDate, endDate) => {
+const getDailySalesData = async (startDate, endDate) => {
 	try {
 		const dailySalesData = await Order.aggregate([
 			{
