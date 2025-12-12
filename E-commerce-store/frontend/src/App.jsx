@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar"
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
       {/* Background gradient */}
 
       <div className="relative z-50 pt-20">
