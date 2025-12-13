@@ -1,77 +1,90 @@
-import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react"
+import { ShoppingCart, UserCog, User } from "lucide-react"
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  const user = false;
-  const isAdmin = false;
+  const user = true;
+  const isAdmin = true;
 
   return (
-    <header className='fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-emerald-800'>
+    <header className='fixed top-0 left-0 w-full z-40 bg-white'>
+      <div className='container mx-auto mt-3 flex items-center justify-between px-4 py-3'>
+        {/* Logo */}
+        <Link
+          to={'/'}
+          className='text-2xl font-medium tracking-wide text-gray-900 hover:text-gray-700 transition-colors'>
+          SHOPIFY
+        </Link>
 
-      <div className='container mx-auto px-4 py-3'>
-        <div className='flex flex-wrap justify-between items-center'>
+        {/* Navigation */}
+        <nav className="flex-1 flex justify-center gap-6">
 
-          <Link to='/' className='text-2xl font-bold text-emerald-400 items-center space-x-2 flex'>
-            E-Commerce
+          {/* Home */}
+          <Link
+            to={"/"}
+            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            Home
           </Link>
 
-          <nav className='flex flex-wrap items-center gap-4'>
+          {/* About */}
+          <Link
+            to="/about"
+            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            About
+          </Link>
 
-            <Link
-              to={"/"} className='text-gray-300 hover:text-emerald-400 transition duration-300
-					 ease-in-out'> Home </Link>
-            {user && (
-              <Link to={"/cart"} className='relative group text-gray-300 hover:text-emerald-400 transition duration-300 
-							ease-in-out'>
-                <ShoppingCart className='inline-block mr-1 group-hover: text-emerald-400' size={20} />
-                <span className='hidden sm:inline'>Cart</span>
-                <span
-                  className='absolute -top-2 -left-2 bg-emerald-500 text-white rounded-full px-2 py-0.5 
-									text-xs group-hover:bg-emerald-400 transition duration-300 ease-in-out'
-                >
-                  3
-                </span>
+          {/* Career */}
+          <Link
+            to="/career"
+            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            Career
+          </Link>
+        </nav>
+
+        
+        <nav className="flex items-center gap-5">
+          {/* Shopping Cart  Icon*/}
+          {user && (
+            <Link to="/cart"
+              className="relative text-black hover:text-gray-700 transition">
+              {/* Cart badge above the icon */}
+              <span className='absolute -top-2 text-xs font-bold text-white bg-black px-1 rounded-full'>
+                3
+              </span>
+              <ShoppingCart className='w-6 h-6 stroke-current' />
+              {/* <span className='text-xs text-gray-600 mt-1'>Cart</span> */}
+            </Link>
+          )}
+
+          {/* Dashboard - Admin Panel Icon*/}
+          {isAdmin && (
+            <Link to={"/secret-dashboard"}
+              className='flex flex-col items-center text-black hover:text-gray-700 transition'>
+              <UserCog className='w-6 h-6 mb-1 stroke-current' />
+              {/* <span className='text-xs'>Dashboard</span> */}
+            </Link>
+          )}
+
+          {user ? (
+            <button className="flex items-center text-black hover:text-gray-700 transition onClick={logout}">
+              Logout
+            </button>
+          ) : (
+            <>
+              {/* Signup/Login Icon */}
+              <Link to={"/signup"} className="flex items-center text-black hover:text-gray-700 transition">
+                <User className="w-6 h-6 mb-1 stroke-current" />
               </Link>
-            )}
 
-            {isAdmin && (
-              <Link className='bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
-								 transition duration-300 ease-in-out flex items-center'>
+              {/* <Link to={"/login"} className="flex items-center text-black hover:text-gray-700 transition">
+                Login
+              </Link> */}
+            </>
+          )}
 
-                <Lock className='inline-block mr-1' size={18} />
-                <span className='hidden sm:inline'>Dashboard</span>
-              </Link>
-            )}
-
-            {user ? (
-              <button className='bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
-						rounded-md flex items-center transition duration-300 ease-in-out'>
-                <LogOut size={18} />
-                <span className='hidden sm:inline ml-2'>Log Out</span>
-
-              </button>
-            ) : (
-              <>
-
-                <Link to={"/signup"} className='bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out'>
-                  <UserPlus className='mr-2' size={18} />
-                  Signup
-                </Link>
-
-                <Link to={"/login"} className='bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out'>
-                  <LogIn className='mr-2' size={18} />
-                  Login
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
+        </nav>
       </div>
-
     </header>
-  )
+  );
 }
 
 export default Navbar
