@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import { useUserStore } from "../stores/useUserStore";
 
 const SignupPage = () => {
 
@@ -13,10 +14,12 @@ const SignupPage = () => {
     confirmPassword: "",
   });
 
+  const { signup } = useUserStore();
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    console.log("Form Submitted", formData);
+    // console.log("Form Submitted", formData);
+    signup(formData);
     
   }
 
