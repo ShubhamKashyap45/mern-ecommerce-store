@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useUserStore } from "../stores/useUserStore";
 
 const Navbar = () => {
-  const { user } = useUserStore();
-  const isAdmin = user.role === "admin"; 
+  const { user, logout } = useUserStore();
+  const isAdmin = user?.role === "admin";
 
   return (
     <header className='fixed top-0 left-0 w-full z-40 bg-white'>
@@ -41,7 +41,7 @@ const Navbar = () => {
           </Link>
         </nav>
 
-        
+
         <nav className="flex items-center gap-5">
           {/* Shopping Cart  Icon*/}
           {user && (
@@ -65,8 +65,10 @@ const Navbar = () => {
             </Link>
           )}
 
+          {/* Logout Button */}
           {user ? (
-            <button className="flex items-center text-black hover:text-gray-700 transition onClick={logout}">
+            <button onClick={logout}
+              className="flex items-center cursor-pointer text-black hover:text-gray-700 transition">
               Logout
             </button>
           ) : (
