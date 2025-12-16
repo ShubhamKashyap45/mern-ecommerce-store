@@ -32,7 +32,7 @@ const SignupPage = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="text-center">
-          <h2 className="text-xl font-medium tracking-wide uppercase text-black">
+          <h2 className="text-2xl font-medium tracking-wide uppercase text-black">
             Create Account
           </h2>
           <p className="mt-2 text-xs tracking-widest uppercase text-gray-500">
@@ -58,9 +58,9 @@ const SignupPage = () => {
               setFormData({ ...formData, name: e.target.value })
             }
             placeholder="Name"
-            className="w-full border border-gray-300 px-3 py-2 text-sm
-            text-black placeholder-gray-400 bg-transparent
-            focus:outline-none focus:border-black"
+            className="w-full border-2 border-gray-400 px-3 py-2 text-sm
+             text-black placeholder-gray-500 bg-transparent
+             focus:outline-none focus:border-black"
           />
 
           <input
@@ -71,9 +71,9 @@ const SignupPage = () => {
               setFormData({ ...formData, email: e.target.value })
             }
             placeholder="Email"
-            className="w-full border border-gray-300 px-3 py-2 text-sm
-            text-black placeholder-gray-400 bg-transparent
-            focus:outline-none focus:border-black"
+            className="w-full border-2 border-gray-400 px-3 py-2 text-sm
+             text-black placeholder-gray-500 bg-transparent
+             focus:outline-none focus:border-black"
           />
 
           <input
@@ -84,9 +84,9 @@ const SignupPage = () => {
               setFormData({ ...formData, password: e.target.value })
             }
             placeholder="Password"
-            className="w-full border border-gray-300 px-3 py-2 text-sm
-            text-black placeholder-gray-400 bg-transparent
-            focus:outline-none focus:border-black"
+            className="w-full border-2 border-gray-400 px-3 py-2 text-sm
+             text-black placeholder-gray-500 bg-transparent
+             focus:outline-none focus:border-black"
           />
 
           <input
@@ -97,17 +97,17 @@ const SignupPage = () => {
               setFormData({ ...formData, confirmPassword: e.target.value })
             }
             placeholder="Confirm Password"
-            className="w-full border border-gray-300 px-3 py-2 text-sm
-            text-black placeholder-gray-400 bg-transparent
-            focus:outline-none focus:border-black"
+            className="w-full border-2 border-gray-400 px-3 py-2 text-sm
+             text-black placeholder-gray-500 bg-transparent
+             focus:outline-none focus:border-black"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full border border-black py-2 text-sm font-medium
-            text-black hover:bg-black hover:text-white transition
-            disabled:opacity-50"
+            className="mt-6 w-full border-2 border-black py-2.5 text-sm font-semibold
+           text-black hover:bg-black hover:text-white transition
+           disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Creating account..." : "Continue"}
           </button>

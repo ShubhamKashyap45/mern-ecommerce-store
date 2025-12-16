@@ -8,41 +8,43 @@ const Navbar = () => {
 
   return (
     <header className='fixed top-0 left-0 w-full z-40 bg-white'>
-      <div className='container mx-auto mt-3 flex items-center justify-between px-4 py-3'>
+      <div className='container mx-auto mt-3 flex items-center px-4 py-3'>
         {/* Logo */}
-        <Link
-          to={'/'}
-          className='text-2xl font-medium tracking-wide text-gray-900 hover:text-gray-700 transition-colors'>
-          SHOPIFY
-        </Link>
+        <div className="flex-1">
+          <Link
+            to={'/'}
+            className='text-4xl font-medium tracking-wide text-gray-900 hover:text-gray-700 transition-colors'>
+            SHOPIFY
+          </Link>
+        </div>
 
         {/* Navigation */}
-        <nav className="flex-1 flex justify-center gap-6">
+        <nav className="flex justify-center gap-6">
 
           {/* Home */}
           <Link
             to={"/"}
-            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
-            Home
+            className="text-black font-semibold hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            HOME
           </Link>
 
           {/* About */}
           <Link
             to="/about"
-            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
-            About
+            className="text-black font-semibold hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            ABOUT
           </Link>
 
-          {/* Career */}
+          {/* Contact */}
           <Link
-            to="/career"
-            className="text-black hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
-            Career
+            to="/contact"
+            className="text-black font-semibold hover:text-gray-700 transition inline-block border-b-2 border-transparent hover:border-black">
+            CONTACT
           </Link>
         </nav>
 
 
-        <nav className="flex items-center gap-5">
+        <nav className="flex-1 flex justify-end gap-5">
           {/* Shopping Cart  Icon*/}
           {user && (
             <Link to="/cart"
