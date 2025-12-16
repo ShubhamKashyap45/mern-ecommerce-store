@@ -1,9 +1,10 @@
 import { ShoppingCart, UserCog, User } from "lucide-react"
 import { Link } from 'react-router-dom'
+import { useUserStore } from "../stores/useUserStore";
 
 const Navbar = () => {
-  const user = true;
-  const isAdmin = true;
+  const { user } = useUserStore();
+  const isAdmin = user.role === "admin"; 
 
   return (
     <header className='fixed top-0 left-0 w-full z-40 bg-white'>
