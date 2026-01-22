@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import AnalyticsTab from "../components/AnalyticsTab";
+import { useProductStore } from "../stores/useProductStore";
 
 const tabs = [
   { id: "create", label: "Create Product", icon: PlusCircle },
@@ -13,7 +14,13 @@ const tabs = [
 
 const AdminPage = () => {
 
-  const [activeTab, setActiveTab] = useState("create"); 
+  const [activeTab, setActiveTab] = useState("create");
+  const { fetchAllProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchAllProducts()
+  }, [fetchAllProducts]);
+
   return (
     <div className="min-h-screen bg-white px-4 py-10">
       <div className="max-w-5xl mx-auto">
