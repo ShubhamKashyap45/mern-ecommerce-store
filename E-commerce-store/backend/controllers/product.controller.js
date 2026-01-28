@@ -1,5 +1,6 @@
 import productModel from "../models/product.model.js";
 import cloudinary from "../lib/cloudinary.js";
+import { redis } from "../lib/redis.js";
 
 
 // @desc to get all Products
@@ -21,7 +22,7 @@ export const getAllProducts = async (req, res) => {
 // @access Public 
 export const getFeaturedProducts = async (req, res) => {
     try {
-        let featuredProducts = await redis.get("freatured_products")
+        let featuredProducts = await redis.get("featured_products")
         if (featuredProducts) {
             // JSON.parse() -> converts json string into JS object
             // Redis stores string not objects so we need to convert it
@@ -37,7 +38,8 @@ export const getFeaturedProducts = async (req, res) => {
             res.json({ message: "No Featured Products Found" })
         }
 
-        await redis.set("freatured_products", JSON.stringify(featuredProducts));
+        await redis.set("featured_products", JSON.stringify(featuredProducts));
+        res.json(featuredProducts);
     } catch (error) {
         console.log("Error in getFeaturedProducts controller", error.message);
         res.status(500).json({ message: "Server Error", error: error.message });
@@ -171,8 +173,8 @@ export const toggleFeaturedProduct = async (req, res) => {
 async function updatedFeaturedProductCache() {
     try {
         const featuredProducts = await productModel.find({ isFeatured: true }).lean();
-        await redis.set("freatured_products", JSON.stringify(featuredProducts));
+        await redis.set("featured_products", JSON.stringify(featuredProducts));
     } catch (error) {
-        console.log("Error in updatedFeaturedProductCache function");
+        console.log("Redis cache update error:", error);
     }
 }
