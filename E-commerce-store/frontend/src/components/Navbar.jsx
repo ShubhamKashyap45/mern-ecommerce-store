@@ -1,10 +1,12 @@
 import { ShoppingCart, UserCog, User } from "lucide-react"
 import { Link } from 'react-router-dom'
 import { useUserStore } from "../stores/useUserStore";
+import { useCartStore } from "../stores/useCartStore";
 
 const Navbar = () => {
   const { user, logout } = useUserStore();
   const isAdmin = user?.role === "admin";
+  const { cart } = useCartStore();
 
   return (
     <header className='fixed top-0 left-0 w-full z-40 bg-white'>
@@ -50,9 +52,11 @@ const Navbar = () => {
             <Link to="/cart"
               className="relative text-black hover:text-gray-700 transition">
               {/* Cart badge above the icon */}
-              <span className='absolute -top-2 text-xs font-bold text-white bg-black px-1 rounded-full'>
-                3
-              </span>
+              {cart.length > 0 && (
+                <span className='absolute -top-2 text-xs font-bold text-white bg-black px-1 rounded-full'>
+                  {cart.length}
+                </span>
+              )}
               <ShoppingCart className='w-6 h-6 stroke-current' />
               {/* <span className='text-xs text-gray-600 mt-1'>Cart</span> */}
             </Link>

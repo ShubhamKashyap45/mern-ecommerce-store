@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
 import { ShoppingCart } from "lucide-react";
 import { useUserStore } from "../stores/useUserStore";
+import { useCartStore } from "../stores/useCartStore";
 
 const ProductCard = ({ product }) => {
 
     const { user } = useUserStore();
+    const { addToCart } = useCartStore();
     if (!product) return null;
 
     const handleAddToCart = () => {
@@ -13,8 +15,9 @@ const ProductCard = ({ product }) => {
             return;
         } else {
             // add to cart
+            addToCart(product);
         }
-        toast.success("Added to cart");
+
     };
 
     return (
@@ -31,8 +34,11 @@ const ProductCard = ({ product }) => {
                 <button
                     onClick={handleAddToCart}
                     className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2
-          bg-black px-4 py-2 text-sm text-white opacity-0 transition-all duration-300
-          group-hover:opacity-100"
+    bg-black px-4 py-2 text-sm text-white
+    opacity-0 transition-all duration-300 ease-out
+    cursor-pointer
+    group-hover:opacity-100
+    hover:scale-105 hover:bg-gray-900"
                 >
                     <ShoppingCart size={16} />
                     Add to cart
