@@ -23,10 +23,10 @@ function App() {
   }, [checkAuth]);
 
   useEffect(() => {
-    if (user) {
-      getCartItems();
+    if (!user) {
+      return;
     }
-
+    getCartItems();
   }, [getCartItems, user]);
 
   if (checkingAuth) {

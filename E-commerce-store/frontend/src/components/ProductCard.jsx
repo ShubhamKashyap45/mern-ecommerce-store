@@ -33,16 +33,21 @@ const ProductCard = ({ product }) => {
                 {/* Hover Add to Cart */}
                 <button
                     onClick={handleAddToCart}
-                    className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2
-    bg-black px-4 py-2 text-sm text-white
-    opacity-0 transition-all duration-300 ease-out
-    cursor-pointer
+                    className="
+    absolute bottom-4 left-1/2 -translate-x-1/2
+    inline-flex items-center gap-2
+    border border-black bg-white px-4 py-2
+    text-xs font-medium uppercase tracking-wide text-black
+    opacity-0 transition-all duration-300
+    hover:bg-black hover:text-white
     group-hover:opacity-100
-    hover:scale-105 hover:bg-gray-900"
+    cursor-pointer
+  "
                 >
-                    <ShoppingCart size={16} />
+                    <ShoppingCart size={14} />
                     Add to cart
                 </button>
+
             </div>
 
             {/* Content */}
